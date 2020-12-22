@@ -146,6 +146,9 @@ var actionList = [...]string{
 	// violin specific
 }
 
+// const variable for test
+const HccErrorTestCode = modulename + category + operation
+
 var errlogger = log.New(log.Writer(), "hcc_error", log.LstdFlags)
 
 func SetErrLogger(l *log.Logger) {
