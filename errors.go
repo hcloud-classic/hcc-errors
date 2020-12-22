@@ -6,7 +6,7 @@ import (
 	"strconv"
 )
 
-const version = "0.1.0"
+const version = "1.0.1"
 
 /*** Match Enum squence with xxxList ***/
 const (
