@@ -78,6 +78,7 @@ const (
 	writeiscsiError
 
 	// violin-scheduler specific
+	schedulehandlerError
 
 	// flute specific
 	ipmiError
@@ -127,28 +128,49 @@ var actionList = [...]string{
 	// clarinet specific
 
 	// piccolo specific
-	"UUID generation error -> ",
-	"timestamp conversion error -> ",
 	"Prepare error -> ",
 	"Execute error -> ",
 	"Token Generation Error -> ",
 	"Login failed -> ",
+	"User exist -> ",
 
 	// cello specific
+	"volumehandlerError -> ",
+	"storagepoolError -> ",
+	"createvolumeError -> ",
+	"preparepxeError -> ",
+	"writeiscsiError -> ",
 
 	// violin-scheduler specific
+	"schedulerhandlerError -> ",
 
 	// flute specific
+	"IPMI Error->",
 
 	// viola specific
 
 	// piano specific
+	"Read Metric Error -> ",
 
 	// harp specific
+	"interface address lookup error -> ",
+	"PF error -> ",
+	"DHCPD error -> ",
+	"file error -> ",
+	"ifconfig error -> ",
+	"IP address error -> ",
+	"Subnet In Use error -> ",
+	"Subnet not allocated error -> ",
+	"AdaptiveIP allocated error -> ",
 
 	// violin-novnc specific
 
 	// violin specific
+	"Create Server failed -> ",
+	"Create Server routine error ->",
+	"Get available nodes error ->",
+	"Get nodes error ->",
+	"ServerNode present error ->",
 }
 
 // const variable for test
