@@ -71,6 +71,11 @@ const (
 	userExist
 
 	// cello specific
+	volumehandlerError
+	storagepoolError
+	createvolumeError
+	preparepxeError
+	writeiscsiError
 
 	// violin-scheduler specific
 
