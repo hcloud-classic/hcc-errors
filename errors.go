@@ -6,7 +6,7 @@ import (
 	"strconv"
 )
 
-const version = "1.0.1"
+const version = "1.0.2"
 
 // const variable for test
 const HccErrorTestCode = modulename + category + operation
