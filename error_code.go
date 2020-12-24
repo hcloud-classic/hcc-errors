@@ -1,6 +1,7 @@
 package hcc_errors
 
 const (
+
 	// code for MiddleWare
 	modulename uint64 = (1 + iota) * 10000
 	cello
@@ -17,6 +18,7 @@ const (
 )
 
 const (
+
 	// code for Category
 	category uint64 = (1 + iota) * 1000
 	internal        // lib
@@ -29,6 +31,7 @@ const (
 )
 
 const (
+
 	// code for Describe Error
 	// Use Generally
 	operation uint64 = 1 + iota

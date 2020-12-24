@@ -1,6 +1,7 @@
 package hcc_errors
 
 var middleWareList = [...]string{
+	"",
 	// string for MiddleWare
 	"-Module Name-",
 	"Cello",
@@ -17,6 +18,7 @@ var middleWareList = [...]string{
 }
 
 var functionList = [...]string{
+	"",
 	// string for Category
 	"-Category-",
 	"Internal",
@@ -29,6 +31,7 @@ var functionList = [...]string{
 }
 
 var actionList = [...]string{
+	"",
 	// string for Describe Error
 	// Use Generally
 	"-Operation-",

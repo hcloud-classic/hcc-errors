@@ -1,12 +1,11 @@
-package hcc_errors_test
+package hcc_errors
 
 import (
-	herrors "hcc_errors"
 	"testing"
 )
 
-func TestNewHccErrors(t *testing.T) {
-	e := herrors.NewHccError(herrors.HccErrorTestCode, "Test Error Text")
+func TestSingleError(t *testing.T) {
+	e := NewHccError(HccErrorTestCode, "Test Error Text")
 
 	if e == nil {
 		t.Error("Failed to create Error")
@@ -14,14 +13,14 @@ func TestNewHccErrors(t *testing.T) {
 }
 
 func TestStack(t *testing.T) {
-	s := herrors.NewHccErrorStack()
+	s := NewHccErrorStack()
 
-	e := s.Push(herrors.NewHccError(herrors.HccErrorTestCode, "Push 1"))
+	e := s.Push(NewHccError(HccErrorTestCode, "Push 1"))
 	if e != nil {
 		t.Error("Push faied")
 	}
 
-	e = s.Push(herrors.NewHccError(0, ""))
+	e = s.Push(NewHccError(0, ""))
 	if e == nil {
 		t.Error("Empty push error check failed")
 	}
@@ -35,4 +34,40 @@ func TestStack(t *testing.T) {
 	if err != nil {
 		t.Error("Stack bottom check failed")
 	}
+}
+
+func TestDumpAndConvert(t *testing.T) {
+	s := NewHccErrorStack()
+
+	s.Push(NewHccError(HccErrorTestCode, "Push 1"))
+	s.Push(NewHccError(HccErrorTestCode, "Push 2"))
+	s.Push(NewHccError(HccErrorTestCode, "Push 3"))
+
+	e := s.Dump()
+	if e != nil {
+		t.Error("Dump Failed")
+	}
+
+	newS := s.ConvertReportForm()
+	if newS != nil {
+		t.Error("Convert Bottom Check Failed")
+	}
+
+	s = NewHccErrorStack()
+
+	s.Push(NewHccError(HccErrorTestCode, "Push 1"))
+	s.Push(NewHccError(HccErrorTestCode, "Push 2"))
+	s.Push(NewHccError(HccErrorTestCode, "Push 3"))
+
+	newS = s.ConvertReportForm()
+	if newS == nil {
+		t.Error("Convert Failed")
+	}
+
+	e = s.Dump()
+	if e == nil {
+		t.Error("Convert Check Failed")
+	}
+
+	s.Print()
 }
