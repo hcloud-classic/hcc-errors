@@ -4,14 +4,15 @@ import (
 	"errors"
 	"log"
 	"strconv"
+	"strings"
 )
 
-const version = "1.0.3"
+const Version string = "1.1.0"
 
 // const variable for test
 const HccErrorTestCode = modulename + category + operation
 
-var errlogger = log.New(log.Writer(), "hcc_error", log.LstdFlags)
+var errlogger = log.New(log.Writer(), "[hcc_error] ", log.LstdFlags)
 
 func SetErrLogger(l *log.Logger) {
 	errlogger = l
@@ -25,10 +26,11 @@ type HccError struct {
 }
 
 func NewHccError(errorCode uint64, errorText string) *HccError {
-	return &HccError{
-		errText: errorText,
-		errCode: errorCode,
-	}
+	err := new(HccError)
+	err.errText = errorText
+	err.errCode = errorCode
+
+	return err
 }
 
 func (e HccError) ToError() error {
@@ -65,30 +67,55 @@ func (e HccError) Fatal() {
 
 /*    HCCERRORSTACK    */
 
-type HccErrorStack []HccError
+type HccErrorStack struct {
+	version  string     `json:"version"`
+	errStack []HccError `json:"errstack"`
+	IsMixed  bool       `json:"ismixed"`
+}
 
 func NewHccErrorStack(errList ...*HccError) *HccErrorStack {
-	es := HccErrorStack{HccError{errCode: 0, errText: ""}}
+	es := new(HccErrorStack)
+
+	es.version = Version
+	es.IsMixed = false
+
+	es.errStack = append(es.errStack, HccError{errCode: 0, errText: ""})
 
 	for _, err := range errList {
 		es.Push(err)
 	}
-	return &es
+	return es
+}
+
+func (es *HccErrorStack) setMixed() {
+	es.IsMixed = true
+}
+
+func (es *HccErrorStack) Version() string {
+	return es.version
+}
+
+func (es *HccErrorStack) Stack() *[]HccError {
+	return &es.errStack
 }
 
 func (es *HccErrorStack) Len() int {
-	return es.len() - 1
+	return es.length() - 1
 }
 
-func (es *HccErrorStack) len() int {
-	return len(*es)
+func (es *HccErrorStack) length() int {
+	return len(*(es.Stack()))
 }
 
 func (es *HccErrorStack) Pop() *HccError {
-	l := es.len()
+	if es.IsMixed {
+		errlogger.Println("Pop(): This HccErrorStack has mixed version of errors. Stack infomations may not correct.")
+	}
+
+	l := es.length()
 	if l > 1 {
-		err := (*es)[l-1]
-		*es = (*es)[:l-1]
+		err := (*(es.Stack()))[l-1]
+		*(es.Stack()) = (*(es.Stack()))[:l-1]
 		return &err
 	}
 	return nil
@@ -99,48 +126,67 @@ func (es *HccErrorStack) Push(err *HccError) error {
 		errlogger.Print("Do not push **Empty** HccError into HccErrorStack\n")
 		return errors.New("Empty Error Push")
 	}
-	*es = append(*es, *err)
+
+	if strings.Compare(Version, es.Version()) != 0 {
+		errlogger.Println("Push(): hcc_errors version not matched. Stack infomations can be corrupt.")
+	}
+
+	es.errStack = append(es.errStack, *err)
 	return nil
 }
+
+var verWarning string = "WARNING: Mixed version errors. Stack infomations may not correct.\n"
 
 // Dump() will clean stack
 func (es *HccErrorStack) Dump() error {
 
-	if (*es)[0].Code() == 0 {
-		errlogger.Print("Error Stack is already converted to report form. Cannot dump.\n")
+	stack := es.Stack()
+
+	if (*stack)[0].Code() != 0 {
+		errlogger.Print("Error Stack already converted to report form. Cannot dump.\n")
 		return errors.New("Stack is already converted report form")
 	}
 
-	errlogger.Printf("------ [Dump Error Stack] ------\n")
-	errlogger.Printf("Stack Size : %v\n", es.Len())
-	for err := es.Pop(); err != nil; err = es.Pop() {
-		err.Println()
+	dumpStr := "\n------ [Dump Error Stack] ------\n"
+	dumpStr += "Stack Size : " + strconv.Itoa(es.Len()) + "\n"
+
+	if es.IsMixed {
+		dumpStr += verWarning
 	}
-	errlogger.Println("--------- [ End Here ] ---------")
+
+	for err := es.Pop(); err != nil; err = es.Pop() {
+		dumpStr += err.ToString() + "\n"
+	}
+	dumpStr += "--------- [ End Here ] ---------"
+	errlogger.Println(dumpStr)
 	return nil
 }
 
 func (es *HccErrorStack) Print() {
-	var stack []HccError = *es
-	logStr := "\n------ [Start Error Stack] ------\n"
+	stack := es.Stack()
+
+	logStr := "\n------ [Print Error Stack] ------\n"
+	if es.IsMixed {
+		logStr += verWarning
+	}
 	for rIdx := es.Len(); rIdx >= 0; rIdx-- {
-		logStr += stack[rIdx].Text() + "\n"
+		logStr += (*stack)[rIdx].ToString() + "\n"
 	}
 	logStr += "--------- [ End Here ] ---------"
 	errlogger.Println(logStr)
 }
 
 func (es *HccErrorStack) ConvertReportForm() *HccErrorStack {
-	var newES HccErrorStack
+	newES := NewHccErrorStack()
 
 	if es.Len() > 0 {
-		*es = (*es)[1:]
-		for idx := 0; idx < es.len(); idx++ {
-			reportText := "#" + strconv.Itoa(idx) + " " + (*es)[idx].ToString()
-			newES.Push(NewHccError((*es)[idx].Code(), reportText))
+		newES.errStack = newES.errStack[1:]
+		for idx := 0; idx < es.length(); idx++ {
+			reportText := "#" + strconv.Itoa(idx) + " " + es.errStack[idx].ToString()
+			newES.Push(NewHccError(es.errStack[idx].Code(), reportText))
 		}
 	} else {
 		return nil
 	}
-	return &newES
+	return newES
 }

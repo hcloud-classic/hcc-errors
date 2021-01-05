@@ -64,10 +64,8 @@ func TestDumpAndConvert(t *testing.T) {
 		t.Error("Convert Failed")
 	}
 
-	e = s.Dump()
+	e = newS.Dump()
 	if e == nil {
 		t.Error("Convert Check Failed")
 	}
-
-	s.Print()
 }
