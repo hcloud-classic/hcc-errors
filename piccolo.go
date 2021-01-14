@@ -12,6 +12,8 @@ const (
 	PiccoloGraphQLLoginFailed              = piccolo + graphql + loginFailed
 	PiccoloGraphQLTokenGenerationError     = piccolo + graphql + tokenGenerationError
 	PiccoloGraphQLTokenExpired             = piccolo + graphql + tokenExpired
+	PiccoloGraphQLInvalidToken             = piccolo + graphql + invalidToken
+	PiccoloGraphQLUserExist                = piccolo + graphql + userExist
 
 	PiccoloMySQLPrepareError = piccolo + sql + prepareError
 	PiccoloMySQLExecuteError = piccolo + sql + executeError
