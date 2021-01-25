@@ -1,10 +1,10 @@
 package hcc_errors
 
 const (
-	ViolinNoVNCInternalInitFail        uint64 = violinNoVNC + internal + initFail
-	ViolinNoVNCInternalConnectionFail  uint64 = violinNoVNC + internal + connectionFail
-	ViolinNoVNCInternalParsingError    uint64 = violinNoVNC + internal + parsingError
-	ViolinNoVNCInternalDBOperationFail uint64 = violinNoVNC + internal + operationFail
+	ViolinNoVNCInternalInitFail       uint64 = violinNoVNC + internal + initFail
+	ViolinNoVNCInternalConnectionFail uint64 = violinNoVNC + internal + connectionFail
+	ViolinNoVNCInternalParsingError   uint64 = violinNoVNC + internal + parsingError
+	ViolinNoVNCInternalOperationFail  uint64 = violinNoVNC + internal + operationFail
 
 	ViolinNoVNCDriverRequestError       uint64 = violinNoVNC + driver + requestError
 	ViolinNoVNCDriverResponseError      uint64 = violinNoVNC + driver + responseError
