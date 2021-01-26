@@ -1,5 +1,6 @@
 stages:
         - init
+        - test
         - build
         - trigger-middlewares
 
@@ -15,6 +16,21 @@ copy_dir:
                 - make copy_dir
         only:
                 - master
+
+unit_tests:
+  stage: test
+  script:
+    - make test
+
+race_detector:
+  stage: test
+  script:
+    - make race
+
+code_coverage:
+  stage: test
+  script:
+    - make coverage
 
 build:
         stage: build
