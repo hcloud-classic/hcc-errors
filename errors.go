@@ -7,7 +7,7 @@ import (
 	"strings"
 )
 
-const Version string = "1.1.0"
+const Version string = "1.1.3"
 
 // const variable for test
 const HccErrorTestCode = modulename + category + operation
@@ -133,6 +133,22 @@ func (es *HccErrorStack) Push(err *HccError) error {
 
 	es.errStack = append(es.errStack, *err)
 	return nil
+}
+
+func (es *HccErrorStack) Merge(other *HccErrorStack) {
+	var tmp *HccErrorStack = NewHccErrorStack()
+
+	for err := other.Pop(); err != nil; err = other.Pop() {
+		tmp.Push(err)
+	}
+
+	for err := tmp.Pop(); err != nil; err = tmp.Pop() {
+		es.Push(err)
+	}
+
+	if other.IsMixed {
+		es.IsMixed = true
+	}
 }
 
 var verWarning string = "WARNING: Mixed version errors. Stack infomations may not correct.\n"
