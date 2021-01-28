@@ -1,0 +1,62 @@
+stages:
+        - init
+        - test
+        - build
+        - trigger-middlewares
+
+before_script:
+        - export GOROOT="/usr/local/go"
+        - export GOPATH="/home/gitlab-runner/go"
+        - export PATH="$PATH:$GOROOT/bin:$GOPATH/bin"
+        - export HCCPATH="$GOPATH/src/hcc"
+
+copy_dir:
+        stage: init
+        script:
+                - make copy_dir
+        only:
+                - master
+
+unit_tests:
+  stage: test
+  script:
+    - make test
+
+race_detector:
+  stage: test
+  script:
+    - make race
+
+code_coverage:
+  stage: test
+  script:
+    - make coverage
+
+build:
+        stage: build
+        script:
+                - make
+                - echo "Finished"
+        only:
+                - master
+
+trigger_violin_novnc:
+    stage: trigger-middlewares
+    script:
+        - "curl -X POST -F token=5923fd713d02257b3106a7a0edf6d3 -F ref=master http://210.207.104.150:8100/api/v4/projects/63/trigger/pipeline"
+    only:
+        - master
+        
+trigger_piano:
+    stage: trigger-middlewares
+    script:
+        - "curl -X POST -F token=0edd217133f45d8bf561f4fb9ac8ea -F ref=master http://210.207.104.150:8100/api/v4/projects/65/trigger/pipeline"
+    only:
+        - master
+        
+trigger_clarinet:
+    stage: trigger-middlewares
+    script:
+        - "curl -X POST -F token=2e3188778e405f731bc2f52776d65c -F ref=master http://210.207.104.150:8100/api/v4/projects/112/trigger/pipeline"
+    only:
+        - master
