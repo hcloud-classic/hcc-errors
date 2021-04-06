@@ -10,7 +10,7 @@ build: ## Build the binary file
 ### version 수정
 `errors.go`
 ```
-const version = "1.0.1" // Change here after modify Error Code
+const version = "1.0.2" // Change here after modify Error Code
 
 /*** Match Enum squence with xxxList ***/
 const (
