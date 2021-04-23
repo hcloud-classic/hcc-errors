@@ -64,8 +64,7 @@ func (es *HccErrorStack) Pop() *HccError {
 
 func (es *HccErrorStack) Push(err *HccError) error {
 	if err.Code() == 0 || err.Text() == "" {
-		errlogger.Print("Do not push **Empty** HccError into HccErrorStack\n")
-		return errors.New("Empty Error Push")
+		return nil
 	}
 
 	if strings.Compare(Version, es.Version()) != 0 {
