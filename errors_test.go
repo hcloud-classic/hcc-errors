@@ -20,11 +20,6 @@ func TestStack(t *testing.T) {
 		t.Error("Push faied")
 	}
 
-	e = s.Push(NewHccError(0, ""))
-	if e == nil {
-		t.Error("Empty push error check failed")
-	}
-
 	err := s.Pop()
 	if err == nil {
 		t.Error("Pop failed")
