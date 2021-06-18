@@ -1,25 +1,21 @@
 package hcc_errors
 
 const (
+	// On
 	CelloInternalInitFail                 = cello + internal + initFail
 	CelloInternalOperationFail            = cello + internal + operationFail
 	CelloInternalUUIDGenerationError      = cello + internal + UUIDGenerationError
 	CelloInternalTimeStampConversionError = cello + internal + timestampConversionError
-	CelloInternalCreateServerFailed       = cello + internal + createServerFailed
-	CelloInternalCreateServerRoutineError = cello + internal + createServerRoutineError
-	CelloInternalGetAvailableNodesError   = cello + internal + getAvailableNodesError
-	CelloInternalServerNodePresentError   = cello + internal + serverNodePresentError
 
 	CelloInternalVolumeHandleError = cello + internal + volumehandlerError
-
+	CelloInternalPoolHandleError   = cello + internal + poolhandlerError
 	CelloInternalStoragePoolError  = cello + internal + storagepoolError
-	CelloInternalCreateVolumeError = cello + internal + createvolumeError
-	CelloInternalPreparePxeError   = cello + internal + preparepxeError
-	CelloInternalWriteIscsiError   = cello + internal + writeiscsiError
+	CelloInternalPrepareDeploy     = cello + internal + preparedeployError
+	CelloInternalReloadObject      = cello + internal + reloadobjectError
+	CelloInternalAction            = cello + internal + actionError
 
 	CelloGrpcArgumentError = cello + grpc + argumentError
 	CelloGrpcRequestError  = cello + grpc + requestError
-	CelloGrpcGetNodesError = cello + grpc + getNodesError
 
 	CelloSQLOperationFail = cello + sql + operationFail
 	CelloSQLNoResult      = cello + sql + noResult

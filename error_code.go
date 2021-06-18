@@ -64,10 +64,11 @@ const (
 
 	// cello specific
 	volumehandlerError
+	poolhandlerError
 	storagepoolError
-	createvolumeError
-	preparepxeError
-	writeiscsiError
+	preparedeployError
+	reloadobjectError
+	actionError
 
 	// violin-scheduler specific
 	schedulehandlerError
