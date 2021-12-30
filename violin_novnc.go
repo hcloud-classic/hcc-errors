@@ -11,6 +11,7 @@ const (
 	ViolinNoVNCDriverReceiveError       uint64 = violinNoVNC + driver + receiveError
 	ViolinNoVNCDriverParsingError       uint64 = violinNoVNC + driver + parsingError
 	ViolinNoVNCDriverJsonUnmarshalError uint64 = violinNoVNC + driver + jsonUnmarshalError
+	ViolinNoVNCDriverOperationFail      uint64 = violinNoVNC + driver + operationFail
 
 	ViolinNoVNCGrpcArgumentError      uint64 = violinNoVNC + grpc + argumentError
 	ViolinNoVNCGrpcRequestError       uint64 = violinNoVNC + grpc + requestError

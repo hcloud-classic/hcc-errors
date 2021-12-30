@@ -20,14 +20,14 @@ func SetErrLogger(l *log.Logger) {
 /*    HCCERROR    */
 
 type HccError struct {
-	errCode uint64 `json:"errcode"` // decimal error code
-	errText string `json:"errtext"` // error string
+	ErrCode uint64 `json:"errcode"` // decimal error code
+	ErrText string `json:"errtext"` // error string
 }
 
 func NewHccError(errorCode uint64, errorText string) *HccError {
 	err := new(HccError)
-	err.errText = errorText
-	err.errCode = errorCode
+	err.ErrText = errorText
+	err.ErrCode = errorCode
 
 	return err
 }
@@ -41,11 +41,11 @@ func (e HccError) Error() string {
 }
 
 func (e HccError) Code() uint64 {
-	return e.errCode
+	return e.ErrCode
 }
 
 func (e HccError) Text() string {
-	return e.errText
+	return e.ErrText
 }
 
 func (e HccError) ToString() string {

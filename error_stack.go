@@ -20,7 +20,7 @@ func NewHccErrorStack(errList ...*HccError) *HccErrorStack {
 	es.version = Version
 	es.IsMixed = false
 
-	es.errStack = append(es.errStack, HccError{errCode: 0, errText: ""})
+	es.errStack = append(es.errStack, HccError{ErrCode: 0, ErrText: ""})
 
 	for _, err := range errList {
 		es.Push(err)
@@ -64,8 +64,7 @@ func (es *HccErrorStack) Pop() *HccError {
 
 func (es *HccErrorStack) Push(err *HccError) error {
 	if err.Code() == 0 || err.Text() == "" {
-		errlogger.Print("Do not push **Empty** HccError into HccErrorStack\n")
-		return errors.New("Empty Error Push")
+		return nil
 	}
 
 	if strings.Compare(Version, es.Version()) != 0 {
