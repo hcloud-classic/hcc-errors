@@ -100,4 +100,8 @@ const (
 	getAvailableNodesError
 	getNodesError
 	serverNodePresentError
+
+	// viola
+	HccCLICmdError
+	AuthKeyCmdError
 )
