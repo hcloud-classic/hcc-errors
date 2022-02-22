@@ -17,4 +17,7 @@ const (
 	ViolinSQLOperationFail = violin + sql + operationFail
 	ViolinSQLNoResult      = violin + sql + noResult
 	ViolinSQLArgumentError = violin + sql + argumentError
+
+	ViolinRabbitmqHccCLIFail  = violin + rabbitmq + HccCLICmdError
+	ViolinRabbitmqAuthKeyFail = violin + rabbitmq + AuthKeyCmdError
 )
